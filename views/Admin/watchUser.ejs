@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Watch user</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- start: CSS -->
+	<link id="bootstrap-style" href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+	<link id="base-style" href="css/style.css" rel="stylesheet">
+	<link id="base-style-responsive" href="css/style-responsive.css" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+	<link
+		href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext'
+		rel='stylesheet' type='text/css'>
+	<!-- end: CSS -->
+</head>
+
+<body>
+	<!-- start: Header -->
+	<%- include('menu');  -%>
+	<div class="container-fluid-full">
+		<div class="row-fluid">
+			<div id="sidebar-left" class="span2">
+				<div class="nav-collapse sidebar-nav">
+					<ul class="nav nav-tabs nav-stacked main-menu">
+						<li><a href="/admin/user"><i class="icon-bar-chart"></i><span class="hidden-tablet">
+									User</span></a></li>
+						<li><a href="/admin/account"><i class="icon-align-justify"></i><span class="hidden-tablet">
+									Account</span></a></li>
+						<li><a href="/admin/recharge"><i class="icon-align-justify"></i><span class="hidden-tablet">
+									Recharge and Withdraw</span></a></li>
+					</ul>
+				</div>
+			</div>
+			<div id="content" class="span10">
+				<ul class="breadcrumb">
+					<li>
+						<i class="icon-home"></i>
+						<a href="index.html">Home</a>
+						<i class="icon-angle-right"></i>
+					</li>
+					<li><a href="#">Tables</a></li>
+				</ul>
+				<div class="row-fluid sortable">
+					<div class="box span12" onTablet="span12" onDesktop="span12">
+						<div class="box-header">
+							<h2><i class="halflings-icon white user"></i><span class="break"></span>Last Users Alt.</h2>
+							<div class="box-icon">
+								<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+								<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+							</div>
+						</div>
+						<div class="box-content">
+							<ul class="dashboard-list">
+								<li>
+									<a href="#">
+										<img class="avatar" src="../../public/uploads/<%= user.Avatar %> ">
+									</a>
+									<strong style="font-size: 16px;">User Id: </strong> <a
+										style="font-size: 16px;"><%= user.UserId %></a><br>
+									<strong style="font-size: 16px;">User Name: </strong> <a
+										style="font-size: 16px;"><%= user.UserName %></a><br>
+									<strong style="font-size: 16px;">Email: </strong> <a
+										style="font-size: 16px;"><%= user.EmailAddress %></a><br>
+									<strong style="font-size: 16px;">Phone: </strong> <a
+										style="font-size: 16px;"><%= user.CellPhone %></a><br>
+									<strong style="font-size: 16px;">Identity Number: </strong> <a
+										style="font-size: 16px;"><%= user.IdentityNumber %></a><br>
+									<strong style="font-size: 16px;">Date of birth: </strong> <a
+										style="font-size: 16px;"><%= asia(user.DateOfBirth, '%m/%d/%Y', 'Asia/Hong_Kong') %></a><br>
+									<strong style="font-size: 16px;">Address: </strong> <a
+										style="font-size: 16px;"><%= user.Address %></a><br>
+									<% if(user.UserStatusId == 1) {  %>
+									<strong style="font-size: 16px;">Status:</strong> <span
+										class="label label-warning">Chưa xác thực</span>
+									<% } else if(user.UserStatusId == 2){ %>
+									<strong style="font-size: 16px;">Status:</strong> <span
+										class="label label-success">Đã xác thực</span>
+									<% } else{ %>
+									<strong style="font-size: 16px;">Status:</strong> <span
+										class="label label-danger">Khóa</span>
+									<% } %>
+								</li>
+									<div class="tk">
+										<!-- Thanh toán -->
+										<h4><b>Tài Khoản Thanh Toán</b></h4>
+										<% if(payaccount) { %>
+										<h5>Số tài khoản: <%= payaccount.AccountId %> </h5>
+										<h5>Số dư: <%= formatMoney(payaccount.CurrentBalance,'VNĐ') %></h5>
+										<h5>Trạng thái:
+											<%= payaccount.AccountStatusTypeId == 2 ? 'Hoạt động' : (payaccount.AccountStatusTypeId == 1 ? 'Chưa xác thực' : 'Đã khóa') %>
+										</h5>
+										<% } else { %>
+										<p>Bạn chưa có tài khoản thanh toán</p>
+										<% } %>
+										<hr>
+										<!-- Tiết kiệm -->
+										<h4><b>Tài khoản tiết kiệm</b></h4>
+										<% if(savingaccount) { %>
+										<h5>Số tài khoản: <%= savingaccount.AccountId %> </h5>
+										<h5>Số dư: <%= formatMoney(savingaccount.CurrentBalance,'VNĐ') %></h5>
+										<h5>Trạng thái:
+											<%= savingaccount.AccountStatusTypeId == 2 ? 'Hoạt động' : (savingaccount.AccountStatusTypeId == 1 ? 'Chưa xác thực' : 'Đã khóa') %>
+										</h5>
+				
+										<% } else { %>
+										<p>Bạn chưa có tài khoản tiết kiệm</p>
+										<% } %>
+									</div>
+							</ul>
+						</div> 
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	<div class="clearfix"></div>
+	<footer>
+		<p>
+			<span style="text-align:left;float:left">&copy; 2013 <a
+					href="http://themifycloud.com/downloads/janux-free-responsive-admin-dashboard-template/"
+					alt="Bootstrap_Metro_Dashboard">JANUX Responsive Dashboard</a></span>
+		</p>
+	</footer>
+</body>
+
+</html>
